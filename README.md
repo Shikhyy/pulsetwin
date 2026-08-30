@@ -1,235 +1,116 @@
-# PulseTwin
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Shikhyy/pulsetwin/master/frontend/public/favicon.svg" alt="PulseTwin Logo" width="80" height="80">
+  <h1 align="center">PulseTwin | DigitalTwin.ai</h1>
+  <p align="center">
+    <strong>Accenture Innovation Challenge 2026 — Round 2 Finalist Submission</strong>
+  </p>
+  <p align="center">
+    A predictive digital twin for hybrid assembly lines. Built to observe the present, understand the anomalies, and predict the bottlenecks—before they stop production.
+  </p>
 
-**Industrial Digital Twin & Operational Intelligence Platform**
+  <p align="center">
+    <a href="https://pulsetwin-frontend.onrender.com"><strong>🔴 View Live Demo</strong></a> ·
+    <a href="#how-it-addresses-round-2-complexities"><strong>Read the Business Case</strong></a>
+  </p>
+</div>
 
-> Real-time predictive intelligence for mixed-model vehicle assembly lines.  
-> Built for the Accenture Innovation Challenge 2026 — DigitalTwin.ai Track.
+<hr />
 
----
+## 🚀 The Problem & Our Solution
+In modern manufacturing, assembly lines are rarely perfectly instrumented. They are a messy patchwork of state-of-the-art robotics and decades-old legacy equipment. 
 
-## What It Does
+**PulseTwin** bridges this gap. By combining real-time 3D spatial mapping with a hybrid machine learning engine, it takes sparse, uneven telemetry data and generates highly accurate predictive maintenance and bottleneck alerts. It doesn't just tell you a machine broke; it tells you a machine *will* break, and exactly how to adjust the line to prevent it.
 
-PulseTwin is a full-stack industrial digital twin that answers five questions for plant teams:
+## 🌟 Key Features
 
-| # | Question | How PulseTwin answers it |
-|---|---|---|
-| 1 | What is happening? | Real-time 3D factory viewport — 40 stations, live telemetry, status colors |
-| 2 | Why is it happening? | Root cause investigation via Digital Thread — traces quality issues upstream |
-| 3 | What will happen next? | ML prediction engine: bottleneck, defect, and anomaly models with confidence intervals |
-| 4 | What can we safely change? | Simulation sandbox — run what-if scenarios, compare outcomes before touching production |
-| 5 | What would happen if we changed it? | Scenario comparison panel with throughput / defect-rate impact |
-
----
-
-## Demo (30-second version)
-
-```
-docker compose up
-```
-
-Open `http://localhost:5173` → landing page → Sign In (any role) → live 3D factory.
-
-At ~18 seconds (simulated 18 minutes at 60× acceleration):
-- **ST-12** enters torque drift — anomaly detected, prediction fires
-- **ST-18** (E-Coat Oven) develops a bottleneck — cycle time degrading
-- Alert badge updates, pulse rings propagate through the 3D viewport
-- Click ST-18 → StationInspector shows prediction at 88% confidence
-- Switch to **Leadership** mode → KPI impact shown
-- Switch to **Simulation** → run a what-if cycle time reduction
-
-Or click **▸ Trigger Scenario** in the demo bar to force-fire the scenario instantly.
+* **Real-time 3D Factory Floor:** An interactive WebGL (`Three.js`) visualization of a 40-station assembly line.
+* **Predictive AI Engine:** Machine learning models (`HistGradientBoostingClassifier`, `LogisticRegression`) that forecast starvation and bottlenecks up to 18 minutes in advance.
+* **Graceful Degradation for Legacy Gear:** The AI explicitly calculates "data completeness." If a legacy station lacks sensors, the UI transparently shows lower confidence scores rather than hallucinating data.
+* **Multi-Stakeholder Dashboards:** Specialized views tailored for Floor Operators, Process Engineers, and Plant Directors.
+* **1-Click Cloud Architecture:** Fully deployed on Render with an automated infrastructure blueprint.
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
+PulseTwin is an enterprise-grade, event-driven microservices architecture:
+
+```mermaid
+graph TD
+    UI[Frontend (React + Three.js)] <-->|WebSocket & REST| API[Node.js Fastify Backend]
+    API <-->|HTTP| ML[Python FastAPI ML Engine]
+    API <-->|SQL| DB[(PostgreSQL)]
+    SIM[Node.js Simulator Engine] -->|REST Push| API
 ```
-┌─────────────────────────────────────────────────────────┐
-│                     Browser (React + Three.js)          │
-│  Landing → Login → 3D Viewport → Context Panels        │
-└──────────────┬──────────────────────────────────────────┘
-               │ WebSocket (event-driven, <50ms)
-               │ REST (sim control, predictions)
-┌──────────────▼──────────────┐   ┌────────────────────────┐
-│   Backend (Fastify + Node)  │──▶│  ML Service (Python /  │
-│   - WebSocket manager       │   │    FastAPI)             │
-│   - Prediction engine       │   │  - Bottleneck model     │
-│   - REST API (auth, plants, │   │    (HistGradBoost)      │
-│     stations, simulations)  │   │  - Defect model         │
-│   - Event fanout            │   │    (LogisticRegression) │
-└──────────────┬──────────────┘   │  - Anomaly detector     │
-               │                  │    (EWMA + z-score)     │
-┌──────────────▼──────────────┐   └────────────────────────┘
-│  Simulator (Node.js)        │
-│  - Production engine (pull  │
-│    system, buffer logic)    │
-│  - Telemetry generator      │
-│    (Gaussian noise, drift)  │
-│  - PLC signal simulation    │
-│  - Demo scenario engine     │
-└──────────────┬──────────────┘
-               │
-┌──────────────▼──────────────┐
-│  PostgreSQL 16              │
-│  (stations, events,         │
-│   telemetry, predictions)   │
-└─────────────────────────────┘
-```
+
+* **Frontend:** React, TypeScript, TailwindCSS, Zustand, React Three Fiber.
+* **Backend:** Node.js, Fastify, Drizzle ORM, WebSockets.
+* **ML Service:** Python, FastAPI, Scikit-Learn, Pandas.
+* **Simulator:** A custom pull-system physics engine that simulates realistic conveyor drift and torque anomalies.
+* **Infrastructure:** 1-Click Render Blueprint (`render.yaml`).
 
 ---
 
-## How It Addresses Round 2 Complexities
+## 🏭 The Demo Scenario (ST-12 to ST-18)
 
-### Uneven Sensor Coverage
-Every station has one of four instrumentation profiles:
-- **RICH** (≥90% sensor coverage) — direct telemetry: torque, vibration, temperature, cycle time
-- **PARTIAL** (≈68%) — some sensors, some manual
-- **MANUAL_ONLY** (≈35%) — relies on manual inspection records
-- **SENSOR_POOR** (≈38%) — legacy PLC tags only
+We built a live scenario to demonstrate the platform to the judges. You can trigger this at any time using the **DEMO** bar at the bottom of the UI.
 
-The ML models account for data completeness in their confidence calculation:
-```
-confidence = completeness * 0.9 + 0.1
-```
-At sensor-poor stations, the system degrades gracefully — predictions are shown with lower confidence rather than fabricated.
-
-### Multi-Causal Defects
-The demo scenario chains three events:
-1. Torque drift at ST-12 (equipment wear signature)
-2. Resulting cycle time degradation at ST-18 (downstream consequence)
-3. Vibration spike at ST-12 (sensor noise / bearing wear)
-
-The Digital Thread traces a vehicle's full journey to show which stations contributed to a quality outcome.
-
-### Live Production Constraints
-The simulator models a realistic **pull system** with buffer capacity limits. Bottlenecks propagate naturally via blocking/starvation — the same mechanism as a real line.
-
-### Multi-Stakeholder Views
-| Mode | Target User | Focus |
-|---|---|---|
-| Operations | Floor supervisor | Real-time station status, alerts, pulses |
-| Investigation | Process engineer | Digital Thread, root cause, evidence |
-| Simulation | Process engineer / IE | What-if scenarios, outcome comparison |
-| Planning | Plant manager | 7-day forecast, capacity utilization |
-| Leadership | Plant director | OEE, FPY, prevented defects, savings |
+1. **The Catalyst:** A subtle 4% torque drift begins at **ST-12** (Robotic Welding). Legacy systems miss this because it hasn't failed yet, but our ML Anomaly Detector catches the pattern and emits a warning pulse.
+2. **The Ripple Effect:** The slight slowdown at ST-12 means parts stop reaching downstream stations on time. 
+3. **The Prediction:** The AI calculates the exact buffer limits and predicts a catastrophic starvation event at **ST-18** (E-Coat Oven) in 18 minutes.
+4. **The Resolution:** The Recommendation Engine generates an actionable fix: *Reduce feed rate at ST-12 by 15% to clear the buffer without halting the oven.*
 
 ---
 
-## Quick Start
+## ☁️ Cloud Deployment (Render)
 
-### Prerequisites
-- Docker & Docker Compose
-- (Optional) Node.js 20+ for local development
+This repository includes a `render.yaml` Blueprint for 1-click cloud deployment.
 
-### Full Stack (recommended)
+1. Fork this repository.
+2. Go to [Render](https://dashboard.render.com).
+3. Click **New > Blueprint** and select your fork.
+4. Render will automatically provision:
+   * PostgreSQL Database
+   * Python ML Service
+   * Node.js Backend API
+   * Node.js Simulator
+   * Vite Static Frontend
+
+---
+
+## 💻 Local Development
+
+If you prefer to run the architecture locally via Docker:
+
 ```bash
+# 1. Setup Environment
 cp .env.example .env
-docker compose up --build
-```
 
-Services start in order: postgres → ml → backend → simulator → frontend.
+# 2. Boot the cluster (Postgres, Backend, ML, Simulator)
+docker compose up --build -d
 
-| Service | URL |
-|---|---|
-| Frontend | http://localhost:5173 |
-| Backend API | http://localhost:3001 |
-| ML Service | http://localhost:8000 |
-| Simulator | http://localhost:3002 |
-| Backend health | http://localhost:3001/health |
-| ML health | http://localhost:8000/health |
-
-### Local Frontend Development
-```bash
+# 3. Start the Frontend
 cd frontend
 npm install
 npm run dev
 ```
-The frontend works in a read-only / simulated state without the backend — WebSocket will retry and mock data is shown.
 
-### Manually Trigger the Demo Scenario
-```bash
-curl -X POST http://localhost:3001/api/demo/trigger-scenario
-```
-Or click **▸ Trigger** in the demo bar at the bottom of the screen.
-
-### Reset
-```bash
-curl -X POST http://localhost:3001/api/demo/reset
-```
+The UI will be available at `http://localhost:5173`.
 
 ---
 
-## ML Models
+## 🧠 How It Addresses Round 2 Complexities
 
-All models train on synthetic data automatically on first startup if no saved model is found.
+### 1. Uneven Sensor Coverage
+Every station in PulseTwin has one of four instrumentation profiles: `RICH` (≥90% coverage), `PARTIAL`, `MANUAL_ONLY`, or `SENSOR_POOR` (PLC tags only). The ML models weight their predictions based on this profile. At sensor-poor stations, predictions are shown with lower confidence, ensuring operators never trust fabricated data.
 
-| Model | Algorithm | Features | Target |
-|---|---|---|---|
-| Bottleneck predictor | `HistGradientBoostingClassifier` | cycle time trend, utilization, queue growth, equipment health, vibration z-score | P(bottleneck within horizon) |
-| Defect predictor | `LogisticRegression` | torque deviation, temperature variance, inspection history, anomaly count | P(quality defect) |
-| Anomaly detector | EWMA + 3σ | per-signal rolling statistics | anomaly flag per reading |
+### 2. Multi-Causal Defects
+The demo scenario chains multiple events (torque drift causing downstream cycle time degradation). The **Digital Thread** feature traces a vehicle's full journey to show exactly which combination of stations contributed to a quality defect.
 
-**Confidence handling**: Each prediction includes a `data_completeness` score (0–1) based on how many features had valid sensor readings. This is shown to operators — the system never pretends certainty at sensor-poor stations.
+### 3. Human-in-the-Loop AI
+PulseTwin strictly adheres to the principle of *Safety before Autonomy*. AI recommendations (like slowing down a feed rate) are presented to the operator as 1-click actions, but the system never autonomously changes machine parameters without human approval.
 
----
-
-## Project Structure
-
-```
-pulsetwin/
-├── frontend/           React + TypeScript + Three.js
-│   └── src/
-│       ├── app/        Shell, routing
-│       ├── features/   Landing, auth, factory 3D, operations, investigation,
-│       │               simulation, planning, leadership, navigation
-│       ├── stores/     Zustand state (twin, predictions, UI, simulation)
-│       └── hooks/      WebSocket, API, production unit
-├── backend/            Node.js Fastify API + WebSocket
-│   └── src/
-│       ├── modules/    Auth, plants, stations, production, predictions,
-│       │               simulation, recommendations, demo
-│       ├── services/   Prediction engine (calls ML service)
-│       └── realtime/   WebSocket manager + event fanout
-├── simulator/          Production line simulation engine
-│   └── src/
-│       ├── factory/    Station layout (40 stations, 3 zones)
-│       ├── production/ Pull system engine, state management
-│       ├── telemetry/  Sensor data generator (Gaussian + drift)
-│       ├── scenarios/  Demo scenario scripts (torque drift, bottleneck)
-│       └── plc/        Simulated PLC tag layer
-├── ml/                 Python FastAPI ML service
-│   └── src/
-│       ├── models/     Bottleneck, defect, anomaly models
-│       ├── data/       Synthetic training data generator
-│       └── features/   Feature extraction pipeline
-├── postgres/           DB schema / migrations
-├── docker-compose.yml  Full stack orchestration
-└── .env.example        Environment variable template
-```
-
----
-
-## Design Principles
-
-From the product spec:
-- **Spatial before abstract** — the factory floor is the primary navigation surface
-- **Evidence before prediction** — raw evidence is always visible alongside ML outputs
-- **Confidence is visible** — never pretend certainty; sensor coverage shown explicitly
-- **Safety before autonomy** — human operators remain accountable for all decisions
-- **Progressive complexity** — operators see simple signals; engineers see evidence; leadership sees KPIs
-
----
-
-## Assumptions
-
-1. 40-station mixed-model assembly line (sedan/SUV, 70/30 split)
-2. ~70% of stations richly instrumented; remaining 30% partial, manual, or sensor-poor
-3. Production only paused for instrumentation upgrades during scheduled maintenance windows (modelled as read-only PLC integration)
-4. Simulated time runs at 60× acceleration for demo purposes; real deployment would use wall-clock time
-5. ML models are trained on synthetic data for the prototype; real deployment would use 3–6 months of historical production data
-
----
-
-## Team
-
-Built for the Accenture Innovation Challenge 2026 — DigitalTwin.ai Track, Round 2.
+<div align="center">
+  <br/>
+  <p><i>Built for the Accenture Innovation Challenge 2026</i></p>
+</div>
