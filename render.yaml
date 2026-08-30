@@ -28,7 +28,7 @@ services:
   - type: web
     name: pulsetwin-backend
     env: node
-    buildCommand: "cd backend && npm install && npm run build"
+    buildCommand: "cd backend && npm install --include=dev && npm run build"
     startCommand: "cd backend && npm start"
     plan: free
     region: oregon
