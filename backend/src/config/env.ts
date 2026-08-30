@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const envSchema = z.object({
-  BACKEND_PORT: z.coerce.number().default(3001),
+  BACKEND_PORT: z.coerce.number().default(process.env.PORT ? parseInt(process.env.PORT) : 3001),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   POSTGRES_HOST: z.string().default('localhost'),
   POSTGRES_PORT: z.coerce.number().default(5432),

@@ -8,6 +8,6 @@ export const config = {
   DEMO_SEED: process.env.DEMO_SEED || '42',
   DEMO_AUTO_START: process.env.DEMO_AUTO_START !== 'false',
   DEMO_TIME_ACCELERATION: parseInt(process.env.DEMO_TIME_ACCELERATION || '60', 10),
-  HTTP_PORT: parseInt(process.env.SIMULATOR_PORT || process.env.HTTP_PORT || '3002', 10),
+  HTTP_PORT: parseInt(process.env.SIMULATOR_PORT || process.env.PORT || process.env.HTTP_PORT || '3002', 10),
 };
 
