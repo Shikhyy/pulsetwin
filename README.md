@@ -26,7 +26,7 @@
 <br />
 
 <div align="center">
-  <img src="docs/assets/app-operations.png" alt="PulseTwin Operations Dashboard" width="100%">
+  <img src="Docs/assets/app-operations.png" alt="PulseTwin Operations Dashboard" width="100%">
 </div>
 
 <br />
@@ -40,7 +40,7 @@
 ## ✨ Key Differentiators
 
 <div align="center">
-  <img src="docs/assets/landing-1.png" alt="PulseTwin Landing" width="100%">
+  <img src="Docs/assets/landing-1.png" alt="PulseTwin Landing" width="100%">
 </div>
 <br />
 
@@ -82,7 +82,7 @@ graph TD
 We built a live scenario to demonstrate the platform's predictive power. You can trigger this at any time using the **DEMO** bar at the bottom of the UI.
 
 <div align="center">
-  <img src="docs/assets/app-planning.png" alt="PulseTwin Planning Dashboard" width="100%">
+  <img src="Docs/assets/app-planning.png" alt="PulseTwin Planning Dashboard" width="100%">
 </div>
 <br />
 
@@ -118,7 +118,7 @@ PulseTwin strictly adheres to the principle of *Safety before Autonomy*. AI reco
 <br />
 
 <div align="center">
-  <img src="docs/assets/landing-2.png" alt="PulseTwin Features" width="100%">
+  <img src="Docs/assets/landing-2.png" alt="PulseTwin Features" width="100%">
   <br/><br/>
   <p><i>Engineered for the Accenture Innovation Challenge 2026</i></p>
 </div>
