@@ -1,6 +1,8 @@
+import React from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
 export const PlanningView: React.FC = () => {
+
   // Mock data for 7-day bottleneck heatmap (7 days x 24 hours just as an example instead of 40)
   const heatmapData = Array.from({ length: 7 }, (_, day) => 
     Array.from({ length: 24 }, (_, hour) => ({
@@ -25,10 +27,10 @@ export const PlanningView: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-6 p-6 font-['Inter'] bg-[#0D0F12] text-[#E8ECF4] h-full overflow-y-auto">
-      <h2 className="text-xl font-semibold mb-2">Planning View</h2>
+    <div className="flex flex-col gap-5 p-4 font-sans bg-root text-text-primary h-full overflow-y-auto">
+      <h2 className="text-sm font-semibold text-text-primary">Planning View</h2>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="flex flex-col gap-4">
         <div className="bg-[#141720] border border-[#2A3048] p-4 rounded-md">
           <h3 className="text-sm font-semibold text-[#8B93AB] uppercase mb-4">7-Day Bottleneck Forecast</h3>
           <div className="flex flex-col gap-1">
@@ -61,7 +63,7 @@ export const PlanningView: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-[#141720] border border-[#2A3048] p-4 rounded-md lg:col-span-2">
+        <div className="bg-[#141720] border border-[#2A3048] p-4 rounded-md">
           <h3 className="text-sm font-semibold text-[#8B93AB] uppercase mb-4">Capacity Utilization</h3>
           <div className="h-[200px] w-full">
             <ResponsiveContainer width="100%" height="100%">

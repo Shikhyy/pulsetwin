@@ -15,9 +15,9 @@ export const ComparisonPanel: React.FC<ComparisonPanelProps> = ({ results }) => 
   }
 
   const chartData = [
-    { name: 'ST-01', Baseline: 75, Simulated: 75 },
-    { name: 'ST-02', Baseline: 92, Simulated: 87.4 },
-    { name: 'ST-03', Baseline: 60, Simulated: 64 },
+    { name: 'ST-17', Baseline: 85, Simulated: 85 },
+    { name: 'ST-18', Baseline: 98, Simulated: 87.4 }, // Bottleneck relieved
+    { name: 'ST-19', Baseline: 60, Simulated: 75 },   // Starvation relieved
   ];
 
   return (
@@ -77,8 +77,8 @@ export const ComparisonPanel: React.FC<ComparisonPanelProps> = ({ results }) => 
       <div className="flex flex-col gap-2">
         <span className="text-xs font-semibold text-[#8B93AB] uppercase">Affected Stations</span>
         <div className="flex flex-wrap gap-2">
-          <span className="text-xs px-2 py-1 bg-[#1C2030] border border-[#2A3048] rounded text-[#E8ECF4]">ST-02 (Assembly)</span>
-          <span className="text-xs px-2 py-1 bg-[#1C2030] border border-[#2A3048] rounded text-[#E8ECF4]">ST-03 (Inspection)</span>
+          <span className="text-xs px-2 py-1 bg-[#1C2030] border border-[#2A3048] rounded text-[#E8ECF4]">ST-18 (E-Coat Oven)</span>
+          <span className="text-xs px-2 py-1 bg-[#1C2030] border border-[#2A3048] rounded text-[#E8ECF4]">ST-19 (Paint Buffer)</span>
         </div>
       </div>
 

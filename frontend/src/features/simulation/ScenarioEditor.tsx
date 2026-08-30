@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FACTORY_CONFIG } from '../../lib/factory-config';
 
 interface ScenarioEditorProps {
   onRunSimulation: (params: any) => void;
@@ -22,15 +23,15 @@ export const ScenarioEditor: React.FC<ScenarioEditorProps> = ({ onRunSimulation,
       
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
-          <label className="text-xs text-[#8B93AB] uppercase">Target Station</label>
+          <label className="label-xs text-text-muted">Target Station</label>
           <select 
             value={station}
             onChange={(e) => setStation(e.target.value)}
-            className="bg-[#141720] border border-[#2A3048] text-[#E8ECF4] text-sm rounded p-2 focus:outline-none focus:border-[#3B82F6]"
+            className="bg-surface border border-border text-text-primary text-sm rounded p-2 focus:outline-none focus:border-accent"
           >
-            <option value="ST-01">Station 1 (Welding) - 75% Util</option>
-            <option value="ST-02">Station 2 (Assembly) - 92% Util</option>
-            <option value="ST-03">Station 3 (Inspection) - 60% Util</option>
+            {FACTORY_CONFIG.stations.map(st => (
+              <option key={st.id} value={st.id}>{st.id} - {st.name}</option>
+            ))}
           </select>
         </div>
 
