@@ -176,7 +176,6 @@ export default function StationMesh({
           color={isSelected ? '#3B82F6' : hovered ? '#E8ECF4' : '#8B93AB'}
           anchorX="center"
           anchorY="bottom"
-          font="/fonts/JetBrainsMono-Regular.ttf"
         >
           {externalId}
         </Text>
