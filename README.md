@@ -1,5 +1,4 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Shikhyy/pulsetwin/master/frontend/public/favicon.svg" alt="PulseTwin Logo" width="100" height="100">
   <h1 align="center">PulseTwin | DigitalTwin.ai</h1>
   
   <p align="center">
@@ -26,6 +25,12 @@
 
 <br />
 
+<div align="center">
+  <img src="docs/assets/app-operations.png" alt="PulseTwin Operations Dashboard" width="100%">
+</div>
+
+<br />
+
 > **The Challenge:** Modern assembly lines are rarely perfectly instrumented. They are a messy patchwork of state-of-the-art robotics and decades-old legacy equipment. How do you build a digital twin when you don't have perfect data?
 
 > **Our Solution:** **PulseTwin** bridges this gap. By combining real-time 3D spatial mapping with a hybrid machine learning engine, it takes sparse, uneven telemetry data and generates highly accurate predictive maintenance and bottleneck alerts. 
@@ -33,6 +38,11 @@
 ---
 
 ## ✨ Key Differentiators
+
+<div align="center">
+  <img src="docs/assets/landing-1.png" alt="PulseTwin Landing" width="100%">
+</div>
+<br />
 
 | Feature | Description |
 | :--- | :--- |
@@ -71,6 +81,11 @@ graph TD
 
 We built a live scenario to demonstrate the platform's predictive power. You can trigger this at any time using the **DEMO** bar at the bottom of the UI.
 
+<div align="center">
+  <img src="docs/assets/app-planning.png" alt="PulseTwin Planning Dashboard" width="100%">
+</div>
+<br />
+
 1. ⚠️ **The Catalyst:** A subtle 4% torque drift begins at **ST-12** (Robotic Welding). Legacy systems miss this because it hasn't failed yet, but our ML Anomaly Detector catches the pattern and emits a warning pulse.
 2. 🌊 **The Ripple Effect:** The slight slowdown at ST-12 means parts stop reaching downstream stations on time. 
 3. 🛑 **The Prediction:** The AI calculates the exact buffer limits and predicts a catastrophic starvation event at **ST-18** (E-Coat Oven) in 18 minutes.
@@ -103,5 +118,7 @@ PulseTwin strictly adheres to the principle of *Safety before Autonomy*. AI reco
 <br />
 
 <div align="center">
+  <img src="docs/assets/landing-2.png" alt="PulseTwin Features" width="100%">
+  <br/><br/>
   <p><i>Engineered for the Accenture Innovation Challenge 2026</i></p>
 </div>
