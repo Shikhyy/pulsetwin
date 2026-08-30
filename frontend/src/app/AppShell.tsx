@@ -1,9 +1,11 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import NavigationRail from '../features/navigation/NavigationRail';
 import FactoryViewport from '../features/factory/FactoryViewport';
 import { ContextPanel } from '../features/operations/ContextPanel';
 import NotificationBadge from '../features/notifications/NotificationBadge';
 import DemoBar from '../features/demo/DemoBar';
+import HUDBar from '../features/navigation/HUDBar';
 import useWebSocket from '../hooks/useWebSocket';
 import { useTwinStore } from '../stores/twinStore';
 import { useUiStore } from '../stores/uiStore';
@@ -31,13 +33,17 @@ export default function AppShell() {
       {/* Left navigation rail */}
       <NavigationRail />
 
-      {/* Main content: factory viewport fills remaining space */}
+      {/* Main content area */}
       <main className="flex-1 relative h-full flex flex-col overflow-hidden">
-        {/* Notification badge (top-right of viewport) */}
-        <NotificationBadge />
+        {/* Top HUD bar */}
+        <HUDBar />
 
-        {/* The 3D factory — always visible */}
-        <div className="flex-1 relative">
+        {/* Factory viewport fills remaining space */}
+        <div className="flex-1 relative overflow-hidden">
+          {/* Notification badge (top-right of viewport) */}
+          <NotificationBadge />
+
+          {/* The 3D factory — always visible */}
           <FactoryViewport />
         </div>
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,10 +7,104 @@
 @layer base {
   body {
     @apply bg-root text-text-primary font-sans antialiased overflow-hidden;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
   }
   
   code, pre {
     font-family: 'JetBrains Mono', monospace;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2A3048 transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #2A3048;
+    border-radius: 2px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #3B4468;
+  }
+}
+
+@layer components {
+  /* Stat label pattern */
+  .label-xs {
+    @apply text-[10px] font-semibold uppercase tracking-widest text-text-muted;
+  }
+
+  .label-sm {
+    @apply text-xs font-semibold uppercase tracking-wider text-text-secondary;
+  }
+
+  /* Industrial data value */
+  .data-value {
+    @apply font-mono text-text-primary tabular-nums;
+  }
+
+  /* Panel divider */
+  .divider {
+    @apply border-t border-border my-4;
+  }
+
+  /* Status pill */
+  .status-pill {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider;
+  }
+
+  /* Card container */
+  .card {
+    @apply bg-surface-2 border border-border rounded p-4;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply px-3 py-1.5 text-xs font-medium text-text-secondary hover:text-text-primary border border-border hover:border-border-strong rounded transition-colors;
+  }
+
+  /* Accent button */
+  .btn-accent {
+    @apply px-4 py-2 text-sm font-semibold text-white bg-accent hover:bg-accent-hover rounded transition-colors;
+  }
+
+  /* HUD panel */
+  .hud-panel {
+    @apply bg-surface border border-border rounded shadow-lg;
+  }
+}
+
+@layer utilities {
+  /* Shimmer loading state */
+  .shimmer {
+    background: linear-gradient(90deg, #1C2030 25%, #252B3D 50%, #1C2030 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Industrial scan-line overlay — very subtle texture */
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
   }
 }
