@@ -71,3 +71,8 @@ postgres/data/
 postgres/extracted/
 postgres/pgsql.zip
 python-embed/
+
+# ML model artifacts (trained locally — not committed)
+ml/saved_models/*.joblib
+ml/saved_models/*.pkl
+ml/saved_models/*.pt
