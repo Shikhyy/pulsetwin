@@ -1,11 +1,12 @@
-services:
+databases:
   # ---------------------------------------------------------
   # PostgreSQL Database
   # ---------------------------------------------------------
-  - type: psql
-    name: pulsetwin-db
+  - name: pulsetwin-db
     plan: free
     region: oregon
+
+services:
 
   # ---------------------------------------------------------
   # ML Prediction Service (Python)
