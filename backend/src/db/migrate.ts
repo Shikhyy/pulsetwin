@@ -7,13 +7,15 @@ const { Pool } = pkg;
 
 export async function runMigrate() {
   console.log('🚀 Running migrations...');
-  const pool = new Pool({
-    host: env.POSTGRES_HOST,
-    port: env.POSTGRES_PORT,
-    database: env.POSTGRES_DB,
-    user: env.POSTGRES_USER,
-    password: env.POSTGRES_PASSWORD,
-  });
+  const pool = env.DATABASE_URL
+    ? new Pool({ connectionString: env.DATABASE_URL })
+    : new Pool({
+        host: env.POSTGRES_HOST,
+        port: env.POSTGRES_PORT,
+        database: env.POSTGRES_DB,
+        user: env.POSTGRES_USER,
+        password: env.POSTGRES_PASSWORD,
+      });
 
   const db = drizzle(pool);
 

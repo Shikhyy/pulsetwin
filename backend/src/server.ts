@@ -49,10 +49,14 @@ async function buildServer() {
 
 const start = async () => {
   try {
-    await runMigrate();
-    const dbOk = await checkConnection();
-    if (!dbOk) {
-      console.warn('DB connection check failed, continuing anyway...');
+    try {
+      await runMigrate();
+      const dbOk = await checkConnection();
+      if (!dbOk) {
+        console.warn('DB connection check failed, continuing anyway...');
+      }
+    } catch (dbErr) {
+      console.warn('Database not available, running in stateless/websocket-only mode:', (dbErr as Error).message);
     }
 
     predictionEngine.start();

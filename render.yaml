@@ -1,0 +1,75 @@
+services:
+  # ---------------------------------------------------------
+  # PostgreSQL Database
+  # ---------------------------------------------------------
+  - type: psql
+    name: pulsetwin-db
+    plan: free
+    region: oregon
+
+  # ---------------------------------------------------------
+  # ML Prediction Service (Python)
+  # ---------------------------------------------------------
+  - type: web
+    name: pulsetwin-ml
+    env: python
+    buildCommand: "cd ml && pip install -r requirements.txt"
+    startCommand: "cd ml && uvicorn src.main:app --host 0.0.0.0 --port $PORT"
+    plan: free
+    region: oregon
+
+  # ---------------------------------------------------------
+  # Main Backend API + WebSocket (Node.js)
+  # ---------------------------------------------------------
+  - type: web
+    name: pulsetwin-backend
+    env: node
+    buildCommand: "cd backend && npm install && npm run build"
+    startCommand: "cd backend && npm start"
+    plan: free
+    region: oregon
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pulsetwin-db
+          property: connectionString
+      - key: ML_SERVICE_URL
+        value: "https://pulsetwin-ml.onrender.com"
+      - key: NODE_ENV
+        value: "production"
+      - key: JWT_SECRET
+        generateValue: true
+
+  # ---------------------------------------------------------
+  # Simulator Engine (Node.js)
+  # ---------------------------------------------------------
+  - type: web
+    name: pulsetwin-simulator
+    env: node
+    buildCommand: "cd simulator && npm install && npm run build"
+    startCommand: "cd simulator && npm start"
+    plan: free
+    region: oregon
+    envVars:
+      - key: BACKEND_URL
+        value: "https://pulsetwin-backend.onrender.com"
+      - key: DEMO_AUTO_START
+        value: "true"
+      - key: DEMO_TIME_ACCELERATION
+        value: "60"
+
+  # ---------------------------------------------------------
+  # Frontend UI (Static Site)
+  # ---------------------------------------------------------
+  - type: web
+    name: pulsetwin-frontend
+    env: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: "./frontend/dist"
+    plan: free
+    region: oregon
+    envVars:
+      - key: VITE_API_URL
+        value: "https://pulsetwin-backend.onrender.com"
+      - key: VITE_WS_URL
+        value: "wss://pulsetwin-backend.onrender.com/ws"

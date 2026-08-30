@@ -11,6 +11,7 @@ const envSchema = z.object({
   POSTGRES_DB: z.string().default('pulsetwin'),
   POSTGRES_USER: z.string().default('pulsetwin'),
   POSTGRES_PASSWORD: z.string().default('changeme_dev_only'),
+  DATABASE_URL: z.string().optional(),
   JWT_SECRET: z.string().default('super-secret-jwt-key-change-in-production'),
   JWT_EXPIRES_IN: z.string().default('24h'),
   ML_SERVICE_URL: z.string().url().default('http://localhost:8000'),

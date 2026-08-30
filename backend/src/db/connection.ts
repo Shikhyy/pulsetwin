@@ -5,13 +5,15 @@ import * as schema from './schema.js';
 
 const { Pool } = pkg;
 
-export const pool = new Pool({
-  host: env.POSTGRES_HOST,
-  port: env.POSTGRES_PORT,
-  database: env.POSTGRES_DB,
-  user: env.POSTGRES_USER,
-  password: env.POSTGRES_PASSWORD,
-});
+export const pool = env.DATABASE_URL
+  ? new Pool({ connectionString: env.DATABASE_URL })
+  : new Pool({
+      host: env.POSTGRES_HOST,
+      port: env.POSTGRES_PORT,
+      database: env.POSTGRES_DB,
+      user: env.POSTGRES_USER,
+      password: env.POSTGRES_PASSWORD,
+    });
 
 export const db = drizzle(pool, { schema });
 
